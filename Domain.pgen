@@ -1,0 +1,15 @@
+module Domain
+
+enum OutcomeResult =
+    | Win
+    | Lose
+    | Void
+    | Canceled
+
+union Outcome(21) =
+    | Empty
+    | Priced of {Price: decimal(3)}
+    | PricedWithProb of {Price: decimal(3); Prob: float}
+    | Resulted of {Result: OutcomeResult}
+
+record Winner3Way = { Win1: Outcome; Draw: Outcome; Win2: Outcome }

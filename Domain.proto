@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package Domain.Protobuf;
+
+enum OutcomeResult {
+    Unknown = 0;
+    Win = 1;
+    Lose = 2;
+    Void = 3;
+    Canceled = 4;
+}
+
+message OutcomeEmpty {
+}
+
+message OutcomePriced {
+    int64 Price = 1;
+}
+
+message OutcomePricedWithProb {
+    int64 Price = 1;
+    float Prob = 2;
+}
+
+message OutcomeResulted {
+    OutcomeResult Result = 1;
+}
+
+message Winner3Way {
+    oneof Win1 {
+        OutcomeEmpty Win1Empty = 1;
+        OutcomePriced Win1Priced = 2;
+        OutcomePricedWithProb Win1PricedWithProb = 3;
+        OutcomeResulted Win1Resulted = 4;
+    }
+    oneof Draw {
+        OutcomeEmpty DrawEmpty = 22;
+        OutcomePriced DrawPriced = 23;
+        OutcomePricedWithProb DrawPricedWithProb = 24;
+        OutcomeResulted DrawResulted = 25;
+    }
+    oneof Win2 {
+        OutcomeEmpty Win2Empty = 43;
+        OutcomePriced Win2Priced = 44;
+        OutcomePricedWithProb Win2PricedWithProb = 45;
+        OutcomeResulted Win2Resulted = 46;
+    }
+}

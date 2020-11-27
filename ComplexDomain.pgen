@@ -1,0 +1,74 @@
+module ComplexDomain
+
+enum OutcomeResult =
+    | Win
+    | Lose
+    | Void
+    | Canceled
+
+union Outcome(21) =
+    | Empty
+    | Priced of {Price: decimal(3)}
+    | PricedWithProb of {Price: decimal(3); Prob: float}
+    | Resulted of {Result: OutcomeResult}
+
+record Winner3Way = {
+    Win1: Outcome idx
+    Draw: Outcome idx
+    Win2: Outcome idx
+}
+
+record Handicap = {
+    Value:decimal(2)
+    Win1: Outcome idx
+    Win2: Outcome idx
+}
+
+record Total = {
+    Value:decimal(2)
+    Over: Outcome idx
+    Under: Outcome idx
+}
+
+record Score = {
+    S1 : int id
+    S2 : int id
+}
+
+record ScoreOutcome = {
+    Score: Score id
+    Outcome: Outcome
+}
+
+record CorrectScore = {
+    Scores : ScoreOutcome list idx![x.Score => x.Outcome]
+}
+
+module ComplexDomain.Football
+
+union Market(1024) =
+    | Winner3Way of Winner3Way
+    | Handicap of Handicap
+    | Total of Total
+    | CorrectScore of CorrectScore
+
+enum Period =
+    | Half1
+    | Half2
+    | MainTime
+
+enum Satistic =
+    | Goals
+    | YellowCards
+    | Corners
+
+enum Status =
+    | Open
+    | Closed
+
+record MarketItem = {
+    Statistic : Statistic id
+    Period : Period id
+    Market : Market id
+    Status : Status
+}
